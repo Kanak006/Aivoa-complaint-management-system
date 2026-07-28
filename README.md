@@ -104,36 +104,6 @@ npm run dev
 ```
 App runs at http://localhost:5173
 
-## Demo script (for your video)
-1. Show the empty form + AI panel.
-2. Click "Try sample: Sterility complaint" — walk through: frontend fires
-   `runExtraction` thunk → `POST /api/complaints/extract-text` → LangGraph runs
-   extract → completeness (passes) → risk (Critical) → CAPA → response flows back into
-   Redux state → form fields populate, risk card renders.
-3. Click "Try sample: Vague / incomplete" — show the manual-review branch: completeness
-   score is low, risk/CAPA nodes are skipped, status pill turns red.
-4. Ask the chat assistant a question about the loaded complaint (e.g. "why is this
-   critical?") — show it calling `/api/chat` with the complaint context.
-5. Edit a field manually, click **Save Complaint** — show the row landing in Postgres
-   (`SELECT * FROM complaints;`) and the `/api/complaints` GET returning it.
-6. Open `backend/app/langgraph_pipeline.py` and walk through the graph definition at the
-   bottom (`build_graph()`) — this is the part they'll ask you to explain/extend live.
-
-## Sample complaint documents
-`backend/sample_data/` has three realistic pharma complaints you can also upload as files
-via the drag-and-drop zone (same content is inlined in the frontend for one-click demo,
-but the files let you demonstrate the actual file-upload → parsing path too):
-- `complaint_1_email.txt` — critical sterility issue (drives Critical risk branch)
-- `complaint_2_labeling.txt` — minor packaging/labeling defect (drives Low/Medium branch)
-- `complaint_3_incomplete.txt` — vague complaint missing mandatory fields (drives manual-review branch)
-
-## What's NOT implemented (be upfront about this in the interview)
-- Production-grade OCR for scanned/image PDFs (explicitly not required by the brief)
-- Duplicate detection uses batch/lot exact-match + text similarity, not real embeddings/vector
-  search — a reasonable next step if asked "how would you scale this"
-- Auth/multi-user roles
-- MySQL (chose Postgres — the brief allows either)
-
 ## Repo structure
 ```
 backend/
